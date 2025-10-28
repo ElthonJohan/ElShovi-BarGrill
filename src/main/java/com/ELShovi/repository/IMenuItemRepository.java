@@ -1,4 +1,6 @@
 package com.ELShovi.repository;
 
-public interface IMenuItemRepository {
+import com.ELShovi.model.MenuItem;
+
+public interface IMenuItemRepository extends IGenericRepository<MenuItem,Integer> {
 }

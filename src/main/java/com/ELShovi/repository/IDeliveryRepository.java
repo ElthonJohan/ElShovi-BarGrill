@@ -1,4 +1,6 @@
 package com.ELShovi.repository;
 
-public interface IDeliveryRepository {
+import com.ELShovi.model.Delivery;
+
+public interface IDeliveryRepository extends IGenericRepository<Delivery,Integer> {
 }
