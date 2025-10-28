@@ -1,4 +1,6 @@
 package com.ELShovi.repository;
 
-public interface ICategoryRepository {
+import com.ELShovi.model.Category;
+
+public interface ICategoryRepository extends IGenericRepository<Category,Integer> {
 }

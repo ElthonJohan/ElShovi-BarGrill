@@ -1,4 +1,6 @@
 package com.ELShovi.repository;
 
-public interface IOrderRepository {
+import com.ELShovi.model.Order;
+
+public interface IOrderRepository extends IGenericRepository<Order,Integer> {
 }
