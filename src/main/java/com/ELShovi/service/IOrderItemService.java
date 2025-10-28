@@ -1,4 +1,6 @@
 package com.ELShovi.service;
 
-public interface IOrderItemService {
+import com.ELShovi.model.OrderItem;
+
+public interface IOrderItemService extends IGenericService<OrderItem,Integer> {
 }

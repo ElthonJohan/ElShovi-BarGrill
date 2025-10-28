@@ -1,4 +1,6 @@
 package com.ELShovi.service;
 
-public interface ICategoryService {
+import com.ELShovi.model.Category;
+
+public interface ICategoryService extends IGenericService<Category,Integer>{
 }

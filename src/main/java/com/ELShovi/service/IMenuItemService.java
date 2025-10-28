@@ -1,4 +1,6 @@
 package com.ELShovi.service;
 
-public interface IMenuItemService {
+import com.ELShovi.model.MenuItem;
+
+public interface IMenuItemService extends IGenericService<MenuItem,Integer> {
 }

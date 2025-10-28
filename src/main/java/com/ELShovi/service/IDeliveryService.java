@@ -1,4 +1,6 @@
 package com.ELShovi.service;
 
-public interface IDeliveryService {
+import com.ELShovi.model.Delivery;
+
+public interface IDeliveryService extends IGenericService<Delivery,Integer> {
 }
