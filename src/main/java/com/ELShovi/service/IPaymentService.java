@@ -1,4 +1,6 @@
 package com.ELShovi.service;
 
-public interface IPaymentService {
+import com.ELShovi.model.Payment;
+
+public interface IPaymentService extends IGenericService<Payment,Integer> {
 }

@@ -1,4 +1,6 @@
 package com.ELShovi.service;
 
-public interface IRoleService {
+import com.ELShovi.model.Role;
+
+public interface IRoleService extends IGenericService<Role,Integer> {
 }

@@ -1,4 +1,6 @@
 package com.ELShovi.service;
 
-public interface IReservationService {
+import com.ELShovi.model.Reservation;
+
+public interface IReservationService extends IGenericService<Reservation,Integer> {
 }
