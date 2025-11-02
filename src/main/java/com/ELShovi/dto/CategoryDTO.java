@@ -1,9 +1,9 @@
 package com.ELShovi.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
