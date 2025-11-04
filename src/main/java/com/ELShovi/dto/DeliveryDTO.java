@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Data
 public class DeliveryDTO {
     private Integer id;
-    @NotNull
     private Integer idOrder;
     @NotNull
     private String address;
@@ -24,7 +23,7 @@ public class DeliveryDTO {
     @NotNull
     private String driverName;
     @NotNull
-    private String vehiclePLate;
+    private String vehiclePlate;
     @NotNull
 
     private DeliveryStatus status;
