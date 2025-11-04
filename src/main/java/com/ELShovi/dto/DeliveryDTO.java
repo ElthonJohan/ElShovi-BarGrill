@@ -4,7 +4,8 @@ import com.ELShovi.model.enums.DeliveryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
+
 
 import java.time.LocalDateTime;
 
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 @Data
 public class DeliveryDTO {
     private Integer id;
-    @NotNull
     private Integer idOrder;
     @NotNull
     private String address;
@@ -23,11 +23,10 @@ public class DeliveryDTO {
     @NotNull
     private String driverName;
     @NotNull
-    private String vehiclePLate;
+    private String vehiclePlate;
     @NotNull
 
     private DeliveryStatus status;
     @NotNull
     private LocalDateTime deliveryTime;
-
 }
