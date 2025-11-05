@@ -1,6 +1,7 @@
 package com.ELShovi.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class CategoryDTO {
-    private Integer id;
+    private Integer idCategory;
     @NotNull
+    @Size(min = 3, max = 50)
     private String name;
     @NotNull
+    @Size(max = 150)
     private String description;
 }

@@ -11,13 +11,13 @@ import jakarta.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemDTO {
-    private int id;
+    private Integer idOrderItem;
     @NotNull
-    private int menuItemId;
+    private Integer idMenuItem;
     @NotNull
     private int quantity;
     @NotNull
     private double unitPrice;
     @NotNull
-    private int orderId;
+    private Integer idOrder;
 }

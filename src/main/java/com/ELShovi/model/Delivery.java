@@ -18,16 +18,20 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private int idDelivery;
 
     @OneToOne
     @JoinColumn(name = "id_order", nullable = false,
     foreignKey = @ForeignKey(name = "FK_delivery_order"))
     private Order order;
 
+    @Column(nullable = false, length = 100)
     private String address;
+    @Column(nullable = false, length = 9)
     private String phone;
+    @Column(nullable = false, length = 50)
     private String driverName;
+    @Column(nullable = false, length = 15)
     private String vehiclePLate;
 
     private DeliveryStatus status;

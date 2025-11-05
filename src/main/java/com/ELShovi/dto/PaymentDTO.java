@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
+
 
 //import org.antlr.v4.runtime.misc.NotNull;
 
@@ -12,13 +14,13 @@ import jakarta.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDTO {
-    private int id;
+    private Integer idPayment;
     @NotNull
     private String paymentMethod;
     @NotNull
     private double amount;
     @NotNull
-    private String paymentDate;
+    private LocalDateTime paymentDate = LocalDateTime.now();
     @NotNull
     private String status;
 }

@@ -1,6 +1,7 @@
 package com.ELShovi.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuItemDTO {
-    private int id;
+    private Integer idMenuItem;
     @NotNull
+    @Size(min = 3, max = 150)
     private String name;
+    @Size(max = 200)
     private String description;
     @NotNull
     private double price;
     private String imageUrl;
+    @NotNull
     private boolean available;
     @NotNull
     private int categoryId;

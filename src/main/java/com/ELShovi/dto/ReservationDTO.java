@@ -12,11 +12,11 @@ import jakarta.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationDTO {
-    private int id;
+    private Integer idReservation;
     @NotNull
-    private int tableId;
+    private Integer idTable;
     @NotNull
-    private int userId;
+    private Integer idUser;
     @NotNull
     private String reservationDate;
     @NotNull

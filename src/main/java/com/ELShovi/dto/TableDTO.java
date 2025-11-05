@@ -1,5 +1,6 @@
 package com.ELShovi.dto;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TableDTO {
-    private int id;
+    private Integer idTable;
     @NotNull
     private int tableNumber;
     @NotNull
