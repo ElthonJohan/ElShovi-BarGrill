@@ -1,5 +1,7 @@
 package com.ELShovi.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +16,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    private int id;
+    private Integer idUser;
     @NotNull
+    @Email
     private String email;
     @NotNull
+    @Size(min = 5, max = 50)
     private String username;
-    private String fullName;
-    private boolean active;
-    private LocalDateTime createdAt;
     @NotNull
-    private int roleId;
+    @Size(min = 8, max = 50)
+    private String password;
+    @Size(min = 5, max = 100)
+    private String fullName;
+    @NotNull
+    private boolean active;
+    private LocalDateTime createdAt=LocalDateTime.now();
+    @NotNull
+    private Integer idRole;
 }
