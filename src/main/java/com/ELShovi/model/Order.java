@@ -23,7 +23,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private int idOrder;
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false,
             foreignKey = @ForeignKey(name = "FK_order_user"))
@@ -32,9 +32,13 @@ public class Order {
     @JoinColumn(name = "id_table", nullable = false,
             foreignKey = @ForeignKey(name = "FK_order_table"))
     private Table table;
+    @Column(nullable = false)
     private OrderType orderType;
+    @Column(nullable = false)
     private OrderStatus status;
+    @Column(nullable = false)
     private double totalAmount;
+    @Column(length = 200)
     private String notes;
     private LocalDateTime createdAt=LocalDateTime.now();
 

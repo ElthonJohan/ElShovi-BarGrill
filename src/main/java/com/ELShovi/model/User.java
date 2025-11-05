@@ -18,13 +18,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private int idUser;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false, length = 100)
     private String username;
+    @Column(nullable = false, length = 50)
     private String password;
+    @Column( length = 100)
     private String fullName;
+    @Column(nullable = false)
     private boolean active;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt=LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name = "id_role",nullable = false,
         foreignKey = @ForeignKey(name = "FK_user_role"))

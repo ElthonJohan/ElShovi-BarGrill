@@ -15,11 +15,15 @@ public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private int idMenuItem;
+    @Column(nullable = false, length = 150)
     private String name;
+    @Column(length = 200)
     private String description;
+    @Column(nullable = false)
     private double price;
     private String imageUrl;
+    @Column(nullable = false)
     private boolean available;
 
     @ManyToOne

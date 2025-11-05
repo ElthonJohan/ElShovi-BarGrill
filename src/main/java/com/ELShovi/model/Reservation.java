@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -15,7 +18,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private int idReservation;
     @OneToOne
     @JoinColumn(name = "id_table", nullable = false,
             foreignKey = @ForeignKey(name = "FK_reservation_table"))
@@ -24,7 +27,10 @@ public class Reservation {
     @JoinColumn(name = "id_user", nullable = false,
             foreignKey = @ForeignKey(name = "FK_reservation_user"))
     private User user;
-    private String reservationDate;
-    private String reservationTime;
+    @Column(nullable = false)
+    private LocalDateTime reservationDate;
+    @Column(nullable = false)
+    private LocalTime reservationTime;
+    @Column(nullable = false)
     private String status;
 }
