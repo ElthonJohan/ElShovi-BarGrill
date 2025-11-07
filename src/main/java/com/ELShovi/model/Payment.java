@@ -17,7 +17,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idPayment;
+    private Integer idPayment;
     @Column(nullable = false)
     private String paymentMethod;
     @Column(nullable = false)

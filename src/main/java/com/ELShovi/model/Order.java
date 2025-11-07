@@ -23,7 +23,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idOrder;
+    private Integer idOrder;
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false,
             foreignKey = @ForeignKey(name = "FK_order_user"))

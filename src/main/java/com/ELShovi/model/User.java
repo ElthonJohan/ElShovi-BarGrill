@@ -18,7 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idUser;
+    private Integer idUser;
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false, length = 100)

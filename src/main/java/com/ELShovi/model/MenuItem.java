@@ -15,7 +15,7 @@ public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idMenuItem;
+    private Integer idMenuItem;
     @Column(nullable = false, length = 150)
     private String name;
     @Column(length = 200)
