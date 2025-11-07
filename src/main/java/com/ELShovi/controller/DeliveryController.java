@@ -43,15 +43,13 @@ public class DeliveryController {
     @PostMapping
     public ResponseEntity<DeliveryDTO> save(@Valid @RequestBody DeliveryDTO dto) throws Exception{
         Delivery obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdDelivery()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DeliveryDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody DeliveryDTO dto) throws Exception{
-        Delivery entity = convertToEntity(dto);
-        entity.setId(id);
-        Delivery obj =  service.update(entity, id);
+        Delivery obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 

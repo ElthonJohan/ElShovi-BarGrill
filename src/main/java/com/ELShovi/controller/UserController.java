@@ -42,15 +42,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDTO> save(@Valid @RequestBody UserDTO dto) throws Exception{
         User obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdUser()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody UserDTO dto) throws Exception{
-        User entity = convertToEntity(dto);
-        entity.setId(id);
-        User obj =  service.update(entity, id);
+        User obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 
