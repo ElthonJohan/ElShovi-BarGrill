@@ -3,6 +3,7 @@ package com.ELShovi.service.implementation;
 import com.ELShovi.repository.IGenericRepository;
 import com.ELShovi.service.IGenericService;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 
@@ -18,6 +19,18 @@ public abstract class GenericService<T,ID> implements IGenericService<T,ID> {
     @Override
     public T update(T entity, ID id) throws Exception {
         getRepo().findById(id).orElseThrow(()-> new Exception("ID NOT FOUND: " + id));
+
+        //Validación de ID
+        // Aquí se podría agregar lógica adicional para validar que el ID del entity coincide con el ID proporcionado
+        //entity.setId(id); // Suponiendo que la entidad tiene un método setId    Java Reflection para obtener el nombre de la clase
+
+        Class<?> clazz = entity.getClass();
+        String className = clazz.getSimpleName();
+
+        //setId mediante reflexión
+        String methodName = "setId" + className; // Asumiendo que el método sigue el patrón setId<ClassName>
+        Method setIdMethod = clazz.getMethod(methodName, id.getClass());
+        setIdMethod.invoke(entity, id);
         return getRepo().save(entity);
     }
 
