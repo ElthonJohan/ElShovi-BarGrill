@@ -14,7 +14,6 @@ public class CategoryDTO {
     @NotNull
     @Size(min = 3, max = 50)
     private String name;
-    @NotNull
     @Size(max = 150)
     private String description;
 }
