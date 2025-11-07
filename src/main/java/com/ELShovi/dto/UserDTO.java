@@ -22,7 +22,7 @@ public class UserDTO {
     private String email;
     @NotNull
     @Size(min = 5, max = 50)
-    private String username;
+    private String userName;
     @NotNull
     @Size(min = 8, max = 50)
     private String password;
