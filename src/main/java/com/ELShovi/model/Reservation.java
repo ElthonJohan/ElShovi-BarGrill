@@ -18,7 +18,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idReservation;
+    private Integer idReservation;
     @OneToOne
     @JoinColumn(name = "id_table", nullable = false,
             foreignKey = @ForeignKey(name = "FK_reservation_table"))

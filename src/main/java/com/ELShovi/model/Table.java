@@ -16,7 +16,7 @@ public class Table {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idTable;
+    private Integer idTable;
     @Column(nullable = false, unique = true, length = 5)
     private int tableNumber;
     @Column(nullable = false)

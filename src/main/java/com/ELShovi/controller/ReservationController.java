@@ -42,15 +42,13 @@ public class ReservationController {
     @PostMapping
     public ResponseEntity<ReservationDTO> save(@Valid @RequestBody ReservationDTO dto) throws Exception{
         Reservation obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdReservation()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ReservationDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody ReservationDTO dto) throws Exception{
-        Reservation entity = convertToEntity(dto);
-        entity.setId(id);
-        Reservation obj =  service.update(entity, id);
+        Reservation obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 

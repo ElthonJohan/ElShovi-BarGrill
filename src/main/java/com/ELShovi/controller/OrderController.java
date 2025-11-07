@@ -43,15 +43,13 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderDTO> save(@Valid @RequestBody OrderDTO dto) throws Exception{
         Order obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdOrder()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<OrderDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody OrderDTO dto) throws Exception{
-        Order entity = convertToEntity(dto);
-        entity.setId(id);
-        Order obj =  service.update(entity, id);
+        Order obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 

@@ -15,7 +15,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idRole;
+    private Integer idRole;
     @Column(nullable = false, unique = true,length = 50)
     private String name;
     @Column(length = 200)

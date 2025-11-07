@@ -15,7 +15,7 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idOrderItem;
+    private Integer idOrderItem;
 
     @ManyToOne
     @JoinColumn(name = "id_menuItem", nullable = false,

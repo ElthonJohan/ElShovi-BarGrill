@@ -43,15 +43,13 @@ public class MenuItemController {
     @PostMapping
     public ResponseEntity<MenuItemDTO> save(@Valid @RequestBody MenuItemDTO dto) throws Exception{
         MenuItem obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdMenuItem()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MenuItemDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody MenuItemDTO dto) throws Exception{
-        MenuItem entity = convertToEntity(dto);
-        entity.setId(id);
-        MenuItem obj =  service.update(entity, id);
+        MenuItem obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 

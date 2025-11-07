@@ -18,7 +18,7 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idDelivery;
+    private Integer idDelivery;
 
     @OneToOne
     @JoinColumn(name = "id_order", nullable = false,
