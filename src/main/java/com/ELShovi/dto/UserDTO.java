@@ -1,5 +1,6 @@
 package com.ELShovi.dto;
 
+import com.ELShovi.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 //import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -32,5 +34,5 @@ public class UserDTO {
     private boolean active;
     private LocalDateTime createdAt=LocalDateTime.now();
     @NotNull
-    private Integer idRole;
+    private List<Role> roles;
 }
