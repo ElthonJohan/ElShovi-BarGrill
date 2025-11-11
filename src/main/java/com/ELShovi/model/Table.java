@@ -1,9 +1,6 @@
 package com.ELShovi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,8 +16,11 @@ public class Table {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private Integer idTable;
+    @Column(nullable = false, unique = true, length = 5)
     private int tableNumber;
+    @Column(nullable = false)
     private int capacity;
+    @Column(nullable = false)
     private String status;
 }

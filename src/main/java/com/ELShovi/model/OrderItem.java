@@ -15,14 +15,16 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private Integer idOrderItem;
 
     @ManyToOne
     @JoinColumn(name = "id_menuItem", nullable = false,
             foreignKey = @ForeignKey(name = "FK_orderitem_menuitem"))
     private MenuItem menuItem;
 
+    @Column(nullable = false)
     private int quantity;
+    @Column(nullable = false)
     private double unitPrice;
 
     @ManyToOne

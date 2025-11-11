@@ -18,6 +18,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RequiredArgsConstructor
 @RequestMapping("/payments")
 //@CrossOrigin(origins = "*")
@@ -42,15 +44,13 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<PaymentDTO> save(@Valid @RequestBody PaymentDTO dto) throws Exception{
         Payment obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdPayment()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PaymentDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody PaymentDTO dto) throws Exception{
-        Payment entity = convertToEntity(dto);
-        entity.setId(id);
-        Payment obj =  service.update(entity, id);
+        Payment obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 

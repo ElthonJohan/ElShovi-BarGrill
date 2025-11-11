@@ -1,13 +1,12 @@
 package com.ELShovi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,9 +17,12 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private Integer idPayment;
+    @Column(nullable = false)
     private String paymentMethod;
+    @Column(nullable = false)
     private double amount;
-    private String paymentDate;
+    private LocalDateTime paymentDate = LocalDateTime.now();
+    @Column(nullable = false)
     private String status;
 }

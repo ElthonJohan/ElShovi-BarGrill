@@ -18,6 +18,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RequiredArgsConstructor
 @RequestMapping("/tables")
 //@CrossOrigin(origins = "*")
@@ -42,15 +44,13 @@ public class TableController {
     @PostMapping
     public ResponseEntity<TableDTO> save(@Valid @RequestBody TableDTO dto) throws Exception{
         Table obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdTable()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<TableDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody TableDTO dto) throws Exception{
-        Table entity = convertToEntity(dto);
-        entity.setId(id);
-        Table obj =  service.update(entity, id);
+        Table obj = service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 

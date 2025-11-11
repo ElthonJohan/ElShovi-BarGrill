@@ -9,8 +9,10 @@ import com.ELShovi.service.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,12 +20,16 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "http://localhost:4200")
+
 @RequiredArgsConstructor
 @RequestMapping("/users")
 //@CrossOrigin(origins = "*")
 public class UserController {
 
     private final IUserService service;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
@@ -41,16 +47,15 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDTO> save(@Valid @RequestBody UserDTO dto) throws Exception{
+
         User obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdUser()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody UserDTO dto) throws Exception{
-        User entity = convertToEntity(dto);
-        entity.setId(id);
-        User obj =  service.update(entity, id);
+        User obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 

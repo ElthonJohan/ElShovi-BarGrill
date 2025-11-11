@@ -18,6 +18,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RequiredArgsConstructor
 @RequestMapping("/order-items")
 //@CrossOrigin(origins = "*")
@@ -42,15 +44,13 @@ public class OrderItemController {
     @PostMapping
     public ResponseEntity<OrderItemDTO> save(@Valid @RequestBody OrderItemDTO dto) throws Exception{
         OrderItem obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdOrderItem()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<OrderItemDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody OrderItemDTO dto) throws Exception{
-        OrderItem entity = convertToEntity(dto);
-        entity.setId(id);
-        OrderItem obj =  service.update(entity, id);
+        OrderItem obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 
