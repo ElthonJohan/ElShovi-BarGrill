@@ -1,4 +1,4 @@
-package com.health.security;
+package com.ELShovi.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 //Clase S7
 @Configuration
@@ -51,8 +50,8 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers(antMatcher("/login")).permitAll()
-                        .requestMatchers(antMatcher("/mail/**")).permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/mail/**").permitAll()
                         //.requestMatchers(antMatcher("/medics/**")).authenticated()
                         .anyRequest().authenticated()
                 )

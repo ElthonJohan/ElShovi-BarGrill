@@ -1,4 +1,4 @@
-package com.health.security;
+package com.ELShovi.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -14,7 +14,7 @@ public class AuthorizeLogic {
         boolean result = false;
 
         String methodRole = switch (path){
-            case "findAll" -> "ADMIN";
+            case "findAll" -> "administrador";
             case "findById", "getById" -> "USER,DBA";
             default -> "ROOT";
         };

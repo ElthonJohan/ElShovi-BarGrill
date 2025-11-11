@@ -1,4 +1,4 @@
-package com.health.security;
+package com.ELShovi.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -34,12 +34,12 @@ public class JwtTokenUtil implements Serializable {
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String username) {
+    private String doGenerateToken(Map<String, Object> claims, String email) {
         SecretKey key = Keys.hmacShaKeyFor(this.secret.getBytes());
 
         return Jwts.builder()
                 .claims(claims)
-                .subject(username)
+                .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
                 .signWith(key)
