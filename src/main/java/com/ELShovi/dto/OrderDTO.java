@@ -35,5 +35,5 @@ public class OrderDTO {
     @NotNull
     private List<OrderItemDTO> items;
     @NotNull
-    private int paymentId;
+    private int idPayment;
 }

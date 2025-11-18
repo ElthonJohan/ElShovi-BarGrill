@@ -16,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity
+@Entity(name = "Order")
+
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @jakarta.persistence.Table(name = "Orden")
 public class Order {
@@ -32,8 +33,10 @@ public class Order {
     @JoinColumn(name = "id_table", nullable = false,
             foreignKey = @ForeignKey(name = "FK_order_table"))
     private Table table;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderType orderType;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
     @Column(nullable = false)

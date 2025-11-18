@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-
+@PreAuthorize("hasRole('administrador')")
 @RequiredArgsConstructor
 @RequestMapping("/categories")
 //@CrossOrigin(origins = "*")
@@ -30,6 +31,14 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> findAll() throws Exception{
         List<CategoryDTO> list = service.findAll().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
         return ResponseEntity.ok(list);
+    }
+
+    // 🔹 Activas
+    @GetMapping("/active")
+    public ResponseEntity<List<CategoryDTO>> getActive() {
+        List<CategoryDTO> listActive = service.findActive().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
+
+        return ResponseEntity.ok(listActive);
     }
 
     @GetMapping("/{id}")

@@ -11,15 +11,18 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@PreAuthorize("hasRole('administrador')")
 
 @RequiredArgsConstructor
 @RequestMapping("/menu-items")
@@ -35,6 +38,8 @@ public class MenuItemController {
         List<MenuItemDTO> list = service.findAll().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
         return ResponseEntity.ok(list);
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<MenuItemDTO>  findById(@PathVariable("id") Integer id) throws Exception{
@@ -59,6 +64,24 @@ public class MenuItemController {
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //Filtros personalizados
+
+    // 🔹 Solo productos activos
+    @GetMapping("/active")
+    public ResponseEntity<List<MenuItemDTO>> getActive() {
+        List<MenuItemDTO> listActive = service.findActive().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
+
+        return ResponseEntity.ok( listActive);
+    }
+
+    // 🔹 Buscar productos por categoría
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<MenuItemDTO>> getByCategory(@PathVariable Integer id) {
+        List<MenuItemDTO> listByCategory = service.findByCategory(id).stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
+
+        return ResponseEntity.ok(listByCategory);
     }
 
     // Convertir de un Modelo a un DTO

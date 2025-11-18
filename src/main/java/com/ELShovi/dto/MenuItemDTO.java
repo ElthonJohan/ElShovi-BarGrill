@@ -20,7 +20,7 @@ public class MenuItemDTO {
     private double price;
     private String imageUrl;
     @NotNull
-    private boolean available;
+    private boolean active;
     @NotNull
-    private int categoryId;
+    private int idCategory;
 }
