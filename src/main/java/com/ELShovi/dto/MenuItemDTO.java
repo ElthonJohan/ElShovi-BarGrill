@@ -14,7 +14,6 @@ public class MenuItemDTO {
     @NotNull
     @Size(min = 3, max = 150)
     private String name;
-    @Size(max = 200)
     private String description;
     @NotNull
     private double price;

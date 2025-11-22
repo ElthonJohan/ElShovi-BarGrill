@@ -29,7 +29,7 @@ public class Order {
     @JoinColumn(name = "id_user", nullable = false,
             foreignKey = @ForeignKey(name = "FK_order_user"))
     private User user;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_table", nullable = false,
             foreignKey = @ForeignKey(name = "FK_order_table"))
     private Table table;

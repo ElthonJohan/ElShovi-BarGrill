@@ -20,8 +20,6 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@PreAuthorize("hasRole('administrador')")
-
 @RequiredArgsConstructor
 @RequestMapping("/tables")
 //@CrossOrigin(origins = "*")

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@PreAuthorize("hasRole('administrador')")
+//@PreAuthorize("hasRole('administrador')")
 @RequiredArgsConstructor
 @RequestMapping("/categories")
 //@CrossOrigin(origins = "*")

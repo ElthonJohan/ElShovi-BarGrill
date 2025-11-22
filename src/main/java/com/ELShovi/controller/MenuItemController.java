@@ -22,7 +22,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasRole('administrador')")
+//@PreAuthorize("hasRole('administrador')")
 
 @RequiredArgsConstructor
 @RequestMapping("/menu-items")

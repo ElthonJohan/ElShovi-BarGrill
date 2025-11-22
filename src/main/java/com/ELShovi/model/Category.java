@@ -19,7 +19,6 @@ public class Category {
     private Integer idCategory;
     @Column(nullable = false, length = 50)
     private String name;
-    @Column(length = 150)
     private String description;
     @Column(nullable = false)
     private boolean active;

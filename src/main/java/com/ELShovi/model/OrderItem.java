@@ -26,10 +26,10 @@ public class OrderItem {
     private int quantity;
     @Column(nullable = false)
     private double unitPrice;
-
-    @ManyToOne
-    @JoinColumn(name = "id_order", nullable = false,
-            foreignKey = @ForeignKey(name = "FK_orderitem_order"))
-    private Order order;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "id_order", nullable = false,
+//            foreignKey = @ForeignKey(name = "FK_orderitem_order"))
+//    private Order order;
 }
 

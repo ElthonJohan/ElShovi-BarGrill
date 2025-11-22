@@ -18,7 +18,6 @@ public class MenuItem {
     private Integer idMenuItem;
     @Column(nullable = false, length = 150)
     private String name;
-    @Column(length = 200)
     private String description;
     @Column(nullable = false)
     private double price;
