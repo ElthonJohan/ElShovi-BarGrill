@@ -17,7 +17,7 @@ public class OrderItem {
     @EqualsAndHashCode.Include
     private Integer idOrderItem;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_menuItem", nullable = false,
             foreignKey = @ForeignKey(name = "FK_orderitem_menuitem"))
     private MenuItem menuItem;
@@ -26,10 +26,10 @@ public class OrderItem {
     private int quantity;
     @Column(nullable = false)
     private double unitPrice;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "id_order", nullable = false,
-//            foreignKey = @ForeignKey(name = "FK_orderitem_order"))
-//    private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_order", nullable = false,
+            foreignKey = @ForeignKey(name = "FK_orderitem_order"))
+    private Order order;
 }
 

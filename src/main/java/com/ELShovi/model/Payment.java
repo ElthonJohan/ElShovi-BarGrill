@@ -18,11 +18,15 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer idPayment;
+
     @Column(nullable = false)
     private String paymentMethod;
+
     @Column(nullable = false)
     private double amount;
+
     private LocalDateTime paymentDate = LocalDateTime.now();
+
     @Column(nullable = false)
     private String status;
 }

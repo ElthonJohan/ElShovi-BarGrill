@@ -26,12 +26,9 @@ public class OrderDTO {
     private OrderType orderType;
     @NotNull
     private OrderStatus status;
-    @NotNull
     private double totalAmount;
     private String notes;
     private LocalDateTime createdAt=LocalDateTime.now();
-    @NotNull
     private List<OrderItemDTO> items;
-    @NotNull
-    private int idPayment;
+    private Integer idPayment;
 }

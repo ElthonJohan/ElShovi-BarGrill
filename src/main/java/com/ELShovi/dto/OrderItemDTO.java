@@ -18,6 +18,6 @@ public class OrderItemDTO {
     private int quantity;
     @NotNull
     private double unitPrice;
-//    @NotNull
-//    private Integer idOrder;
+
+
 }
