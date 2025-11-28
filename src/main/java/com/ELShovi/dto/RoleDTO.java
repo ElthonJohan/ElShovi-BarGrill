@@ -17,6 +17,5 @@ public class RoleDTO {
     @NotNull
     @Size(min = 1, max = 50)
     private String name;
-    @Size(min = 10, max = 200)
     private String description;
 }

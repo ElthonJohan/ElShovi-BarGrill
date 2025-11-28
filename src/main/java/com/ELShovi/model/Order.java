@@ -17,38 +17,46 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
+
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@jakarta.persistence.Table(name = "Orden")
+@jakarta.persistence.Table(name = "orden")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer idOrder;
+
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false,
             foreignKey = @ForeignKey(name = "FK_order_user"))
     private User user;
-    @OneToOne
-    @JoinColumn(name = "id_table", nullable = false,
+
+    @ManyToOne
+    @JoinColumn(name = "id_table",
             foreignKey = @ForeignKey(name = "FK_order_table"))
     private Table table;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderType orderType;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
+
     @Column(nullable = false)
     private double totalAmount;
+
     @Column(length = 200)
     private String notes;
+
     private LocalDateTime createdAt=LocalDateTime.now();
 
-    @OneToMany
-    @JoinColumn(name = "id_items", nullable = false,
-            foreignKey = @ForeignKey(name = "FK_order_items"))
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "id_payment", nullable = false,
+    @JoinColumn(name = "id_payment",
             foreignKey = @ForeignKey(name = "FK_order_payment"))
     private Payment payment;
 }

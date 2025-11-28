@@ -4,6 +4,8 @@ import com.ELShovi.dto.CategoryDTO;
 import com.ELShovi.dto.ReservationDTO;
 import com.ELShovi.model.Category;
 import com.ELShovi.model.Reservation;
+import com.ELShovi.model.Table;
+import com.ELShovi.model.User;
 import com.ELShovi.service.ICategoryService;
 import com.ELShovi.service.IReservationService;
 import jakarta.validation.Valid;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -60,14 +65,17 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntime(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
     // Convertir de un Modelo a un DTO
     private ReservationDTO convertToDto(Reservation obj){
         return modelMapper.map(obj, ReservationDTO.class);
     }
 
     // Convertir de un DTO a un Modelo (Entity)
-    private Reservation convertToEntity(ReservationDTO dto){
-        return modelMapper.map(dto, Reservation.class);
-    }
+    private Reservation convertToEntity(ReservationDTO dto){ return modelMapper.map(dto, Reservation.class); }
 
 }

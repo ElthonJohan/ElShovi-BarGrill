@@ -18,13 +18,14 @@ public class MenuItem {
     private Integer idMenuItem;
     @Column(nullable = false, length = 150)
     private String name;
-    @Column(length = 200)
     private String description;
     @Column(nullable = false)
     private double price;
+    @Column(length = 500)
+
     private String imageUrl;
     @Column(nullable = false)
-    private boolean available;
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "id_category", nullable = false,

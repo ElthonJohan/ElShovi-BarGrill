@@ -34,6 +34,7 @@ public class Delivery {
     @Column(nullable = false, length = 15)
     private String vehiclePLate;
 
+    @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
     private LocalDateTime deliveryTime;
