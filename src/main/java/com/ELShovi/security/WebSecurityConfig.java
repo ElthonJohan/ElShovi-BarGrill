@@ -52,6 +52,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/mail/**").permitAll()
+                        .requestMatchers("/categories/**").permitAll()
+                        .requestMatchers("/menuitems/**").permitAll()
                         //.requestMatchers(antMatcher("/medics/**")).authenticated()
                         .anyRequest().authenticated()
                 )
