@@ -1,12 +1,15 @@
 package com.ELShovi.controller;
 
 import com.ELShovi.dto.CategoryDTO;
+import com.ELShovi.dto.MenuItemDTO;
 import com.ELShovi.model.Category;
+import com.ELShovi.model.MenuItem;
 import com.ELShovi.service.ICategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +77,17 @@ public class CategoryController {
     // Convertir de un DTO a un Modelo (Entity)
     private Category convertToEntity(CategoryDTO dto){
         return modelMapper.map(dto, Category.class);
+    }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<CategoryDTO>> paginar (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idCategory") String sortBy) throws Exception {
+        Page<Category> pageResult = service.paginar(page, size, sortBy);
+        Page<CategoryDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
     }
 
 }
