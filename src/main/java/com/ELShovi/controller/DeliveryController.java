@@ -7,6 +7,7 @@ import com.ELShovi.model.Category;
 import com.ELShovi.model.Delivery;
 import com.ELShovi.service.ICategoryService;
 import com.ELShovi.service.IDeliveryService;
+import com.ELShovi.service.IOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,7 @@ import java.util.List;
 public class DeliveryController {
 
     private final IDeliveryService service;
+    private final IOrderService orderService;
 
     @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
@@ -44,9 +46,20 @@ public class DeliveryController {
 
     @PostMapping
     public ResponseEntity<DeliveryDTO> save(@Valid @RequestBody DeliveryDTO dto) throws Exception{
-        Delivery obj = service.save(convertToEntity(dto));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdDelivery()).toUri();
-        return ResponseEntity.created(location).build();
+
+        Delivery delivery = convertToEntity(dto);
+
+        Delivery saved = service.save(delivery);
+
+        DeliveryDTO response = convertToDto(saved);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getIdDelivery())
+                .toUri();
+
+        return ResponseEntity.created(location).body(response);
     }
 
     @PutMapping("/{id}")
@@ -67,8 +80,25 @@ public class DeliveryController {
     }
 
     // Convertir de un DTO a un Modelo (Entity)
-    private Delivery convertToEntity(DeliveryDTO dto){
-        return modelMapper.map(dto, Delivery.class);
+    private Delivery convertToEntity(DeliveryDTO dto) throws Exception{
+
+        Delivery delivery = new Delivery();
+
+        if (dto.getIdDelivery() != null) {
+            delivery.setIdDelivery(dto.getIdDelivery());
+        }
+
+        // 👇 Asigna la orden usando su ID
+        delivery.setOrder(orderService.findById(dto.getIdOrder()));
+
+        delivery.setAddress(dto.getAddress());
+        delivery.setPhone(dto.getPhone());
+        delivery.setDriverName(dto.getDriverName());
+        delivery.setVehiclePlate(dto.getVehiclePlate());
+        delivery.setStatus(dto.getStatus());
+        delivery.setDeliveryTime(dto.getDeliveryTime());
+
+        return delivery;
     }
 
 }

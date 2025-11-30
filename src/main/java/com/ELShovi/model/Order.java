@@ -16,10 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @jakarta.persistence.Table(name = "orden")
+@Entity(name = "Pedido")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +56,7 @@ public class Order {
     private List<OrderItem> items = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "id_payment",
+    @JoinColumn(name = "id_payment",unique = false,
             foreignKey = @ForeignKey(name = "FK_order_payment"))
     private Payment payment;
 }
