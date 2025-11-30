@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -92,6 +94,17 @@ public class MenuItemController {
     // Convertir de un DTO a un Modelo (Entity)
     private MenuItem convertToEntity(MenuItemDTO dto){
         return modelMapper.map(dto, MenuItem.class);
+    }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<MenuItemDTO>> paginar (
+            @RequestParam(defaultValue = "2") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "idMenuItem") String sortBy) throws Exception {
+        Page<MenuItem> pageResult = service.paginar(page, size, sortBy);
+        Page<MenuItemDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
     }
 
 }

@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -101,4 +102,14 @@ public class DeliveryController {
         return delivery;
     }
 
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<DeliveryDTO>> paginar (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idDelivery") String sortBy) throws Exception {
+        Page<Delivery> pageResult = service.paginar(page, size, sortBy);
+        Page<DeliveryDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
+    }
 }
