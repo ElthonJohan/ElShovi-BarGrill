@@ -1,22 +1,22 @@
 package com.ELShovi.controller;
 
 
-import com.ELShovi.dto.CategoryDTO;
-import com.ELShovi.dto.OrderDTO;
-import com.ELShovi.dto.OrderItemDTO;
-import com.ELShovi.dto.PaymentDTO;
+import com.ELShovi.dto.*;
 import com.ELShovi.model.Category;
 import com.ELShovi.model.Order;
 import com.ELShovi.model.OrderItem;
 import com.ELShovi.model.Payment;
 import com.ELShovi.model.enums.OrderStatus;
 import com.ELShovi.model.enums.OrderType;
+import com.ELShovi.repository.IOrderRepository;
 import com.ELShovi.service.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,6 +25,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -35,6 +36,8 @@ import java.util.List;
 public class OrderController {
 
     private final IOrderService service;
+    private final IOrderRepository repo;
+
     private final IUserService userService;
     private final ITableService tableService;
     private final IMenuItemService menuItemService;
@@ -53,6 +56,25 @@ public class OrderController {
         OrderDTO obj = convertToDto(service.findById(id)) ;
         return ResponseEntity.ok(obj);
     }
+
+    @GetMapping("/checkMesa/{idMesa}")
+    public ResponseEntity<Boolean> checkMesa(
+            @PathVariable Integer idMesa,
+            @RequestParam(required = false) Integer exclude) {
+
+        List<Order> pendientes = repo.findActiveOrdersByTable(idMesa, exclude);
+        return ResponseEntity.ok(pendientes.isEmpty());
+    }
+
+    @GetMapping("/mesa/ocupada/{idMesa}")
+    public ResponseEntity<Boolean> mesaOcupada(
+            @PathVariable Integer idMesa) {
+
+        boolean ocupada = service.mesaOcupada(idMesa);
+        return ResponseEntity.ok(ocupada);
+    }
+
+
 
     @PostMapping
     @Transactional
@@ -87,25 +109,47 @@ public class OrderController {
             order.setPayment(null);
         }
 
-        // ====== GUARDAR LA ORDEN ======
-        Order obj = service.save(order);
+        // ==============================
+        // 4️⃣ Guardar orden
+        // ==============================
+        Order saved = service.save(order);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+        // 5️⃣ Convertir Entity → DTO (respuesta)
+        OrderDTO response = convertToDto(saved);
+
+        // 6️⃣ Construir URL de recurso creado
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(obj.getIdOrder())
+                .buildAndExpand(saved.getIdOrder())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        // 7️⃣ Devolver DTO completo
+        return ResponseEntity.created(location).body(response);
     }
 
     @PostMapping("/{id}/pay")
     @Transactional
     public ResponseEntity<?> manualPayment(
             @PathVariable Integer id,
-            @RequestBody PaymentDTO dto) throws Exception {
+            @RequestBody PaymentRequestDTO dto) throws Exception {
 
         Order order = service.findById(id);
 
+
+
+        if (order == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Orden no encontrada"));
+        }
+
+        if (order.getPayment() != null) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "La orden ya fue pagada"));
+        }
+
+
+        // Crear pago
         Payment payment = new Payment();
         payment.setPaymentMethod(dto.getPaymentMethod());
         payment.setAmount(order.getTotalAmount());
@@ -113,12 +157,23 @@ public class OrderController {
 
         paymentService.save(payment);
 
+        // Asociar pago a la orden y actualizar estado
         order.setPayment(payment);
         order.setStatus(OrderStatus.COMPLETADA);
 
         service.save(order);
 
-        return ResponseEntity.ok("Pago registrado");
+        // Respuesta JSON
+        PaymentDTO response = new PaymentDTO(
+                payment.getIdPayment(),
+                payment.getPaymentMethod(),
+                payment.getAmount(),
+                payment.getPaymentDate(),
+                payment.getStatus(),
+                "Pago registrado correctamente"
+        );
+
+        return ResponseEntity.ok(response);
     }
 
 
@@ -134,6 +189,17 @@ public class OrderController {
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<OrderDTO>> paginar (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idOrder") String sortBy) throws Exception {
+        Page<Order> pageResult = service.paginar(page, size, sortBy);
+        Page<OrderDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
     }
 
     // ================== MAPPERS ==================
@@ -203,7 +269,11 @@ public class OrderController {
         OrderDTO dto = new OrderDTO();
         dto.setIdOrder(order.getIdOrder());
         dto.setIdUser(order.getUser().getIdUser());
+        dto.setUserName(order.getUser().getUserName());
+
         dto.setIdTable(order.getTable() != null ? order.getTable().getIdTable() : null);
+        dto.setTableNumber(order.getTable() != null ? order.getTable().getTableNumber() : null);
+
         dto.setOrderType(order.getOrderType());
         dto.setStatus(order.getStatus());
         dto.setNotes(order.getNotes());

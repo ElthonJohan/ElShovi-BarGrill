@@ -22,6 +22,10 @@ public class OrderDTO {
     @NotNull
     private Integer idUser;
     private Integer idTable;
+
+    private String userName;     // 👈 NUEVO
+    private Integer tableNumber;
+
     @NotNull
     private OrderType orderType;
     @NotNull

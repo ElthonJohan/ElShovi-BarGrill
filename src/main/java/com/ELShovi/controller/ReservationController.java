@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -77,5 +78,16 @@ public class ReservationController {
 
     // Convertir de un DTO a un Modelo (Entity)
     private Reservation convertToEntity(ReservationDTO dto){ return modelMapper.map(dto, Reservation.class); }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<ReservationDTO>> paginar (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idReservation") String sortBy) throws Exception {
+        Page<Reservation> pageResult = service.paginar(page, size, sortBy);
+        Page<ReservationDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
+    }
 
 }
