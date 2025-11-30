@@ -11,14 +11,21 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
 @RestController
+//@PreAuthorize("hasRole('administrador')")
+
 @RequiredArgsConstructor
 @RequestMapping("/menu-items")
 //@CrossOrigin(origins = "*")
@@ -33,6 +40,8 @@ public class MenuItemController {
         List<MenuItemDTO> list = service.findAll().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
         return ResponseEntity.ok(list);
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<MenuItemDTO>  findById(@PathVariable("id") Integer id) throws Exception{
@@ -59,6 +68,24 @@ public class MenuItemController {
         return ResponseEntity.noContent().build();
     }
 
+    //Filtros personalizados
+
+    // 🔹 Solo productos activos
+    @GetMapping("/active")
+    public ResponseEntity<List<MenuItemDTO>> getActive() {
+        List<MenuItemDTO> listActive = service.findActive().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
+
+        return ResponseEntity.ok( listActive);
+    }
+
+    // 🔹 Buscar productos por categoría
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<MenuItemDTO>> getByCategory(@PathVariable Integer id) {
+        List<MenuItemDTO> listByCategory = service.findByCategory(id).stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
+
+        return ResponseEntity.ok(listByCategory);
+    }
+
     // Convertir de un Modelo a un DTO
     private MenuItemDTO convertToDto(MenuItem obj){
         return modelMapper.map(obj, MenuItemDTO.class);
@@ -67,6 +94,17 @@ public class MenuItemController {
     // Convertir de un DTO a un Modelo (Entity)
     private MenuItem convertToEntity(MenuItemDTO dto){
         return modelMapper.map(dto, MenuItem.class);
+    }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<MenuItemDTO>> paginar (
+            @RequestParam(defaultValue = "2") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "idMenuItem") String sortBy) throws Exception {
+        Page<MenuItem> pageResult = service.paginar(page, size, sortBy);
+        Page<MenuItemDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
     }
 
 }

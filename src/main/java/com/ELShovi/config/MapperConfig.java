@@ -6,12 +6,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Configuration
 public class MapperConfig {
     @Bean(name = "defaultMapper")
-    public ModelMapper defaultMapper() {
-        return new ModelMapper();
+    public ModelMapper modelMapper() {
+        return  new ModelMapper();
+
+
     }
+
 
     //@Bean(name = "categoryMapper")
 //    public ModelMapper categoryMapper() {

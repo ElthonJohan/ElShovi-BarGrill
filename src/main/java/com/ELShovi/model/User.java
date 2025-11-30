@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,17 +23,19 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false, length = 100)
-    private String username;
-    @Column(nullable = false, length = 50)
+    private String userName;
+    @Column(nullable = false, length = 200)
     private String password;
-    @Column( length = 100)
+    @Column(nullable = true)
     private String fullName;
     @Column(nullable = false)
     private boolean active;
     private LocalDateTime createdAt=LocalDateTime.now();
-    @ManyToOne
-    @JoinColumn(name = "id_role",nullable = false,
-        foreignKey = @ForeignKey(name = "FK_user_role"))
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "idUser"),
+            inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole")
+    )
+    private List<Role> roles;
 
 }

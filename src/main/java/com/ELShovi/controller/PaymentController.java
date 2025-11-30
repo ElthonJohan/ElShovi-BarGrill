@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,6 +19,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RequiredArgsConstructor
 @RequestMapping("/payments")
 //@CrossOrigin(origins = "*")
@@ -65,6 +68,17 @@ public class PaymentController {
 
     // Convertir de un DTO a un Modelo (Entity)
     private Payment convertToEntity(PaymentDTO dto){return modelMapper.map(dto, Payment.class);
+    }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<PaymentDTO>> paginar (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idPayment") String sortBy) throws Exception {
+        Page<Payment> pageResult = service.paginar(page, size, sortBy);
+        Page<PaymentDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
     }
 
 }

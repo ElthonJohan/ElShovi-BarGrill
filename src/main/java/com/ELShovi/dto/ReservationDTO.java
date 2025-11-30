@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 //import org.antlr.v4.runtime.misc.NotNull;
 
@@ -18,9 +21,11 @@ public class ReservationDTO {
     @NotNull
     private Integer idUser;
     @NotNull
-    private String reservationDate;
+    private LocalDate reservationDate;
     @NotNull
-    private String reservationTime;
+    private LocalTime reservationTimeStart;
+    @NotNull
+    private LocalTime reservationTimeEnd;
     @NotNull
     private String status;
 }

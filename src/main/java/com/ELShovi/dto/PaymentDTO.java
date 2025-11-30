@@ -15,12 +15,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PaymentDTO {
     private Integer idPayment;
-    @NotNull
     private String paymentMethod;
-    @NotNull
     private double amount;
-    @NotNull
-    private LocalDateTime paymentDate = LocalDateTime.now();
-    @NotNull
+    private LocalDateTime paymentDate ;
     private String status;
+    private String message;
 }

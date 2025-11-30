@@ -32,8 +32,9 @@ public class Delivery {
     @Column(nullable = false, length = 50)
     private String driverName;
     @Column(nullable = false, length = 15)
-    private String vehiclePLate;
+    private String vehiclePlate;
 
+    @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
     private LocalDateTime deliveryTime;

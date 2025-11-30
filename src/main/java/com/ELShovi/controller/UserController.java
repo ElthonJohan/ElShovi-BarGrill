@@ -9,8 +9,11 @@ import com.ELShovi.service.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,12 +21,16 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "http://localhost:4200")
+
 @RequiredArgsConstructor
 @RequestMapping("/users")
 //@CrossOrigin(origins = "*")
 public class UserController {
 
     private final IUserService service;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
@@ -41,6 +48,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDTO> save(@Valid @RequestBody UserDTO dto) throws Exception{
+
         User obj = service.save(convertToEntity(dto));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdUser()).toUri();
         return ResponseEntity.created(location).build();
@@ -66,6 +74,17 @@ public class UserController {
     // Convertir de un DTO a un Modelo (Entity)
     private User convertToEntity(UserDTO dto){
         return modelMapper.map(dto, User.class);
+    }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<UserDTO>> paginar (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idUser") String sortBy) throws Exception {
+        Page<User> pageResult = service.paginar(page, size, sortBy);
+        Page<UserDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
     }
 
 }

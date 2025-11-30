@@ -2,6 +2,9 @@ package com.ELShovi.service.implementation;
 
 import com.ELShovi.repository.IGenericRepository;
 import com.ELShovi.service.IGenericService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -48,5 +51,11 @@ public abstract class GenericService<T,ID> implements IGenericService<T,ID> {
     public void delete(ID id) throws Exception {
         getRepo().findById(id).orElseThrow(()->new Exception("ID NOT FOUND: " + id));
         getRepo().deleteById(id);
+    }
+
+    // Paginación
+    @Override
+    public Page<T> paginar(int page, int size, String sortBy) throws Exception {
+        return getRepo().findAll(PageRequest.of(page,size, Sort.by(sortBy)));
     }
 }
