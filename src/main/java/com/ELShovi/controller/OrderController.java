@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -188,6 +189,17 @@ public class OrderController {
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //Metodo para la paginación
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<OrderDTO>> paginar (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idOrder") String sortBy) throws Exception {
+        Page<Order> pageResult = service.paginar(page, size, sortBy);
+        Page<OrderDTO> dtoPage = pageResult.map(this::convertToDto);
+        return  ResponseEntity.ok(dtoPage);
     }
 
     // ================== MAPPERS ==================
