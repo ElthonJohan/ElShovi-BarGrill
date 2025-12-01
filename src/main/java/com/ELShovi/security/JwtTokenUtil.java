@@ -28,6 +28,7 @@ public class JwtTokenUtil implements Serializable {
     //Agregar data al Payload/Claims
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+
         claims.put("role", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","))); //ADMIN,DBA,USER
         claims.put("test", "democode-test-value");
 

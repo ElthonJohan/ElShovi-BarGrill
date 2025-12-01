@@ -23,8 +23,7 @@ public class OrderDTO {
     private Integer idUser;
     private Integer idTable;
 
-    private String userName;     // 👈 NUEVO
-    private Integer tableNumber;
+
 
     @NotNull
     private OrderType orderType;
@@ -35,4 +34,11 @@ public class OrderDTO {
     private LocalDateTime createdAt=LocalDateTime.now();
     private List<OrderItemDTO> items;
     private Integer idPayment;
+
+
+
+    private String userName;     // 👈 NUEVO
+    private Integer tableNumber;
+    private String paymentMethod;
+
 }

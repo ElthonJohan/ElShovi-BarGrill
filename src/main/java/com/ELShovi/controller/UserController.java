@@ -1,6 +1,7 @@
 package com.ELShovi.controller;
 
 import com.ELShovi.dto.CategoryDTO;
+import com.ELShovi.dto.ProfileDTO;
 import com.ELShovi.dto.UserDTO;
 import com.ELShovi.model.Category;
 import com.ELShovi.model.User;
@@ -59,6 +60,16 @@ public class UserController {
         User obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
+
+    @PutMapping("/profile/{id}")
+    public ResponseEntity<User> updateProfile(
+            @PathVariable Integer id,
+            @RequestBody ProfileDTO dto) {
+
+        User updated = service.updateProfile(id, dto);
+        return ResponseEntity.ok(updated);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{

@@ -80,6 +80,7 @@ public class OrderController {
     @Transactional
     public ResponseEntity<OrderDTO> save(@Valid @RequestBody OrderDTO dto) throws Exception{
         Order order = convertToEntity(dto);
+        order.setStatus(OrderStatus.PENDIENTE);
 
         // ==============================
         //  PAGO AUTOMÁTICO PARA DELIVERY
@@ -225,7 +226,9 @@ public class OrderController {
         }
 
         order.setOrderType(dto.getOrderType());
-        order.setStatus(dto.getStatus());
+        if (dto.getStatus() != null) {
+            order.setStatus(dto.getStatus());
+        }
         order.setNotes(dto.getNotes());
         order.setCreatedAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now());
 
@@ -271,8 +274,21 @@ public class OrderController {
         dto.setIdUser(order.getUser().getIdUser());
         dto.setUserName(order.getUser().getUserName());
 
-        dto.setIdTable(order.getTable() != null ? order.getTable().getIdTable() : null);
-        dto.setTableNumber(order.getTable() != null ? order.getTable().getTableNumber() : null);
+        // Mesa / TableNumber
+        if (order.getOrderType() == OrderType.LLEVAR) {
+            dto.setIdTable(null);
+            dto.setTableNumber(-1); // 👈 AQUÍ
+        } else {
+            dto.setIdTable(
+                    order.getTable() != null ? order.getTable().getIdTable() : null
+            );
+
+            dto.setTableNumber(
+                    order.getTable() != null ? order.getTable().getTableNumber() : null
+            );
+        }
+        dto.setPaymentMethod(order.getPayment() != null ?
+                order.getPayment().getPaymentMethod() : null);
 
         dto.setOrderType(order.getOrderType());
         dto.setStatus(order.getStatus());

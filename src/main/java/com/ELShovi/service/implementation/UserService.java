@@ -1,5 +1,6 @@
 package com.ELShovi.service.implementation;
 
+import com.ELShovi.dto.ProfileDTO;
 import com.ELShovi.model.Role;
 import com.ELShovi.model.User;
 import com.ELShovi.repository.IGenericRepository;
@@ -51,4 +52,29 @@ public class UserService extends GenericService<User,Integer> implements IUserSe
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
+
+    public User updateProfile(Integer idUser, ProfileDTO dto) {
+
+        User user = repo.findById(idUser)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
+        }
+
+        if (dto.getUserName() != null) {
+            user.setUserName(dto.getUserName());
+        }
+
+        if (dto.getFullName() != null) {
+            user.setFullName(dto.getFullName());
+        }
+
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        return repo.save(user);
+    }
+
 }
