@@ -2,6 +2,7 @@ package com.ELShovi.dto;
 
 import com.ELShovi.model.enums.OrderStatus;
 import com.ELShovi.model.enums.OrderType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"userName", "tableNumber"})
 public class OrderDTO {
     private Integer idOrder;
     @NotNull
@@ -26,7 +28,7 @@ public class OrderDTO {
     private String userName;     // 👈 NUEVO
     private Integer tableNumber;
 
-    @NotNull
+
     private OrderType orderType;
     @NotNull
     private OrderStatus status;

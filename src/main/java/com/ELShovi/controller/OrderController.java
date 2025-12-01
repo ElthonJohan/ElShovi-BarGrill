@@ -10,6 +10,7 @@ import com.ELShovi.model.enums.OrderStatus;
 import com.ELShovi.model.enums.OrderType;
 import com.ELShovi.repository.IOrderRepository;
 import com.ELShovi.service.*;
+import com.ELShovi.service.implementation.OrderService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -297,5 +298,9 @@ public class OrderController {
 
         return dto;
     }
-
+    @PostMapping("/createFromDto")
+    public ResponseEntity<OrderDTO> create(@RequestBody OrderDTO dto) throws Exception {
+        OrderDTO saved = service.createFromDto(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
 }

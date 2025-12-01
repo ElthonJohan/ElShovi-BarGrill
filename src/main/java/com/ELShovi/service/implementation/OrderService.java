@@ -1,6 +1,8 @@
 package com.ELShovi.service.implementation;
 
-import com.ELShovi.model.Order;
+import com.ELShovi.dto.OrderDTO;
+import com.ELShovi.model.*;
+import com.ELShovi.model.enums.OrderStatus;
 import com.ELShovi.model.enums.OrderType;
 import com.ELShovi.repository.IGenericRepository;
 import com.ELShovi.repository.IOrderItemRepository;
@@ -9,8 +11,10 @@ import com.ELShovi.service.IGenericService;
 import com.ELShovi.service.IOrderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,6 +22,8 @@ import java.util.List;
 public class OrderService extends GenericService<Order, Integer> implements IOrderService {
 
     private final IOrderRepository repo;
+    private final ModelMapper orderMapper;
+
 
     @Override
     protected IGenericRepository<Order, Integer> getRepo() {
@@ -86,4 +92,43 @@ public class OrderService extends GenericService<Order, Integer> implements IOrd
 
         return repo.save(original);
     }
+    public OrderDTO createFromDto(OrderDTO dto) {
+        dto.setStatus(OrderStatus.PENDIENTE);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setOrderType(OrderType.DELIVERY);
+
+        User user = new User();
+        user.setIdUser(dto.getIdUser());
+
+        Table table = new Table();
+        table.setIdTable(dto.getIdTable()); // SIEMPRE 1
+
+        Order order = new Order();
+        order.setUser(user);
+        order.setTable(table);
+        order.setOrderType(dto.getOrderType());
+        order.setStatus(dto.getStatus());
+        order.setTotalAmount(dto.getTotalAmount());
+        order.setNotes(dto.getNotes());
+        order.setCreatedAt(dto.getCreatedAt());
+
+        List<OrderItem> items = dto.getItems().stream().map(i -> {
+            OrderItem item = new OrderItem();
+
+            MenuItem mi = new MenuItem();
+            mi.setIdMenuItem(i.getIdMenuItem());
+            item.setMenuItem(mi);
+
+            item.setQuantity(i.getQuantity());
+            item.setUnitPrice(i.getUnitPrice());
+            item.setOrder(order);
+            return item;
+        }).toList();
+
+        order.setItems(items);
+
+        Order saved = repo.save(order);
+        return orderMapper.map(saved, OrderDTO.class);
+    }
+
 }

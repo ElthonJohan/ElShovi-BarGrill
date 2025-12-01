@@ -31,4 +31,8 @@ public class MenuItem {
     @JoinColumn(name = "id_category", nullable = false,
         foreignKey = @ForeignKey(name = "FK_menuItem_category"))
     private Category category;
+
+    public MenuItem(Integer id) {
+        this.idMenuItem = id;
+    }
 }
