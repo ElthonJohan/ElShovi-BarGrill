@@ -63,6 +63,14 @@ public class UserService extends GenericService<User,Integer> implements IUserSe
         user.setUserName(request.getUserName());
         user.setFullName(request.getFullName());
 
+        // Estado (activo/inactivo)
+        user.setActive(request.isActive());
+
+        // Roles (si vienen en el request)
+        if (request.getRoles() != null && !request.getRoles().isEmpty()) {
+            user.setRoles(request.getRoles());
+        }
+
         // 🔥 Si la contraseña viene vacía, NO cambiarla
         if (request.getPassword() != null && !request.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));

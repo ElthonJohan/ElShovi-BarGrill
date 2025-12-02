@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +26,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/deliveries")
+@PreAuthorize("hasAnyRole('administrador','mesero')")
+
 //@CrossOrigin(origins = "*")
 public class DeliveryController {
 

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,6 +34,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/orders")
 //@CrossOrigin(origins = "*")!
+@PreAuthorize("hasAnyRole('administrador','mesero','cliente')")
+
 public class OrderController {
     private final IOrderService service;
     private final IOrderRepository repo;

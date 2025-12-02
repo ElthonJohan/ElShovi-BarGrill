@@ -52,23 +52,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/login/**").permitAll()
-
-                        .requestMatchers("/dashboard/**").permitAll()
-
                         .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/categories/**").permitAll()
-                        .requestMatchers("/deliveries/**").permitAll()
-
-                        .requestMatchers("/menu-items/**").permitAll()
-
                         .requestMatchers("/order-items/**").permitAll()
-
                         .requestMatchers("/orders/**").permitAll()
-                        .requestMatchers("/reservations/**").permitAll()
-                        .requestMatchers("/tables/**").permitAll()
                         .requestMatchers("/roles/**").permitAll()
-                        .requestMatchers("/mail/**").permitAll()
-                        .requestMatchers("/payments/**").permitAll()
+
                         //.requestMatchers(antMatcher("/medics/**")).authenticated()
                         .anyRequest().authenticated()
                 )
