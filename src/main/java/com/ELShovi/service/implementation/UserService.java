@@ -53,6 +53,25 @@ public class UserService extends GenericService<User,Integer> implements IUserSe
         return repo.save(user);
     }
 
+    @Override
+    public User update(User request,Integer id) throws Exception {
+        User user = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Actualizar campos permitidos
+        user.setEmail(request.getEmail());
+        user.setUserName(request.getUserName());
+        user.setFullName(request.getFullName());
+
+        // 🔥 Si la contraseña viene vacía, NO cambiarla
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        return repo.save(user);
+
+    }
+
     public User updateProfile(Integer idUser, ProfileDTO dto) {
 
         User user = repo.findById(idUser)

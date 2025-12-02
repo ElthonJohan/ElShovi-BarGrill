@@ -61,6 +61,7 @@ public class UserController {
         return ResponseEntity.ok(convertToDto(obj));
     }
 
+
     @PutMapping("/profile/{id}")
     public ResponseEntity<User> updateProfile(
             @PathVariable Integer id,
