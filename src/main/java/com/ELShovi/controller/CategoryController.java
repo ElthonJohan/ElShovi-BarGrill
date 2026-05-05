@@ -20,17 +20,21 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-//@PreAuthorize("hasRole('administrador')")
 @RequiredArgsConstructor
 @RequestMapping("/categories")
 //@CrossOrigin(origins = "*")
+
+
 public class CategoryController {
 
     private final ICategoryService service;
 
     @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
+
+
     @GetMapping
+    @PreAuthorize("hasAnyRole('administrador','mesero','cliente')")
     public ResponseEntity<List<CategoryDTO>> findAll() throws Exception{
         List<CategoryDTO> list = service.findAll().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
         return ResponseEntity.ok(list);
@@ -38,6 +42,7 @@ public class CategoryController {
 
     // 🔹 Activas
     @GetMapping("/active")
+    @PreAuthorize("hasAnyRole('administrador','mesero','cliente')")
     public ResponseEntity<List<CategoryDTO>> getActive() {
         List<CategoryDTO> listActive = service.findActive().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
 
@@ -45,12 +50,14 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('administrador','mesero','cliente')")
     public ResponseEntity<CategoryDTO>  findById(@PathVariable("id") Integer id) throws Exception{
         CategoryDTO obj = convertToDto(service.findById(id)) ;
         return ResponseEntity.ok(obj);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('administrador')")
     public ResponseEntity<CategoryDTO> save(@Valid @RequestBody CategoryDTO dto) throws Exception{
         Category obj = service.save(convertToEntity(dto));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdCategory()).toUri();
@@ -58,12 +65,14 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('administrador')")
     public ResponseEntity<CategoryDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody CategoryDTO dto) throws Exception{
         Category obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('administrador')")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
         return ResponseEntity.noContent().build();

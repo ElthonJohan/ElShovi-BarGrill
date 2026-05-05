@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,6 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/payments")
 //@CrossOrigin(origins = "*")
+@PreAuthorize("hasAnyRole('administrador','mesero')")
+
 public class PaymentController {
 
     private final IPaymentService service;

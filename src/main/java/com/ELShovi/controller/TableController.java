@@ -23,6 +23,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 @RequestMapping("/tables")
+
+
 //@CrossOrigin(origins = "*")
 public class TableController {
 
@@ -31,18 +33,21 @@ public class TableController {
     @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
     @GetMapping
+    @PreAuthorize("hasAnyRole('administrador','mesero')")
     public ResponseEntity<List<TableDTO>> findAll() throws Exception{
         List<TableDTO> list = service.findAll().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('administrador','mesero')")
     public ResponseEntity<TableDTO>  findById(@PathVariable("id") Integer id) throws Exception{
         TableDTO obj = convertToDto(service.findById(id)) ;
         return ResponseEntity.ok(obj);
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('administrador')")
     public ResponseEntity<TableDTO> save(@Valid @RequestBody TableDTO dto) throws Exception{
         Table obj = service.save(convertToEntity(dto));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdTable()).toUri();
@@ -50,12 +55,14 @@ public class TableController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('administrador')")
     public ResponseEntity<TableDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody TableDTO dto) throws Exception{
         Table obj = service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('administrador')")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
         return ResponseEntity.noContent().build();
