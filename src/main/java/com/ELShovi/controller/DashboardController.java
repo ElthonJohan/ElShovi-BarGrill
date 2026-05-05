@@ -3,6 +3,7 @@ package com.ELShovi.controller;
 import com.ELShovi.dto.dashboard.*;
 import com.ELShovi.service.implementation.DashboardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('administrador','mesero')")
+
 public class DashboardController {
     private final DashboardService service;
 
