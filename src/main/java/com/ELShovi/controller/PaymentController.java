@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/payments")
 //@CrossOrigin(origins = "*")
-@PreAuthorize("hasAnyRole('administrador','mesero')")
+@PreAuthorize("hasAnyRole('ADMIN','mesero')")
 
 public class PaymentController {
 

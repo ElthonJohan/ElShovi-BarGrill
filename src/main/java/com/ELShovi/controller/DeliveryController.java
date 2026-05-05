@@ -26,7 +26,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/deliveries")
-@PreAuthorize("hasAnyRole('administrador','mesero')")
+@PreAuthorize("hasAnyRole('ADMIN','mesero')")
 
 //@CrossOrigin(origins = "*")
 public class DeliveryController {
