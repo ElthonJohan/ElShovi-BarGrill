@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('administrador','mesero')")
+@PreAuthorize("hasAnyRole('ADMIN','mesero')")
 
 public class DashboardController {
     private final DashboardService service;

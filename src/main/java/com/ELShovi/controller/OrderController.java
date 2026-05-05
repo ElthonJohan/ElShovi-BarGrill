@@ -34,7 +34,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/orders")
 //@CrossOrigin(origins = "*")!
-@PreAuthorize("hasAnyRole('administrador','mesero','cliente')")
+@PreAuthorize("hasAnyRole('ADMIN','mesero','cliente')")
 
 public class OrderController {
     private final IOrderService service;

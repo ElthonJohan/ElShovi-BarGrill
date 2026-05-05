@@ -48,7 +48,7 @@ public class MenuItemController {
         return ResponseEntity.ok(obj);
     }
 
-    @PreAuthorize("hasAnyRole('administrador','mesero')")
+    @PreAuthorize("hasAnyRole('ADMIN','mesero')")
     @PostMapping
     public ResponseEntity<MenuItemDTO> save(@Valid @RequestBody MenuItemDTO dto) throws Exception{
         MenuItem obj = service.save(convertToEntity(dto));
@@ -56,14 +56,14 @@ public class MenuItemController {
         return ResponseEntity.created(location).build();
     }
 
-    @PreAuthorize("hasAnyRole('administrador','mesero')")
+    @PreAuthorize("hasAnyRole('ADMIN','mesero')")
     @PutMapping("/{id}")
     public ResponseEntity<MenuItemDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody MenuItemDTO dto) throws Exception{
         MenuItem obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 
-    @PreAuthorize("hasAnyRole('administrador','mesero')")
+    @PreAuthorize("hasAnyRole('ADMIN','mesero')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);

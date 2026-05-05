@@ -29,7 +29,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/reservations")
-@PreAuthorize("hasAnyRole('administrador','mesero')")
+@PreAuthorize("hasAnyRole('ADMIN','mesero')")
 
 //@CrossOrigin(origins = "*")
 public class ReservationController {
