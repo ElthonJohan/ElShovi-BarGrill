@@ -1,5 +1,13 @@
+
+# Etapa 1: construir el proyecto
+FROM maven:3.9.9-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Etapa 2: ejecutar
 FROM eclipse-temurin:21-jdk
-ARG JAR_FILE=target/ElShoviBarGrill-0.0.1.jar
-COPY ${JAR_FILE} app_elshovi.jar
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app_elshovi.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
