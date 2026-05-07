@@ -28,7 +28,7 @@ public class OrderService extends GenericService<Order, Integer> implements IOrd
 
         if (order.getOrderType() == OrderType.EN_MESA) {
 
-            Integer idMesa = order.getRestaurantTable().getIdTable();
+            Integer idMesa = order.getTable().getIdTable();
 
             // Buscar si hay otra orden activa en esa mesa
             List<Order> pendientes = repo.findActiveOrdersByTable(idMesa, order.getIdOrder());
@@ -52,7 +52,7 @@ public class OrderService extends GenericService<Order, Integer> implements IOrd
     public Order update(Order order, Integer id) throws Exception {
         if (order.getOrderType() == OrderType.EN_MESA) {
 
-            Integer idMesa = order.getRestaurantTable().getIdTable();
+            Integer idMesa = order.getTable().getIdTable();
 
             // Buscar si hay otra orden activa en esa mesa
             List<Order> pendientes = repo.findActiveOrdersByTable(idMesa, order.getIdOrder());
@@ -68,7 +68,7 @@ public class OrderService extends GenericService<Order, Integer> implements IOrd
 
         // COPIAR CAMPOS BÁSICOS
         original.setUser(order.getUser());
-        original.setRestaurantTable(order.getRestaurantTable());
+        original.setTable(order.getTable());
         original.setOrderType(order.getOrderType());
         original.setStatus(order.getStatus());
         original.setNotes(order.getNotes());
