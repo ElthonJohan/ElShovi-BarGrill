@@ -224,9 +224,9 @@ public class OrderController {
 
         // TABLE (puede ser null si es DELIVERY)
         if (dto.getOrderType() == OrderType.DELIVERY) {
-            order.setRestaurantTable(null);
+            order.setTable(null);
         } else if (dto.getIdTable() != null) {
-            order.setRestaurantTable(tableService.findById(dto.getIdTable()));
+            order.setTable(tableService.findById(dto.getIdTable()));
         }
 
         order.setOrderType(dto.getOrderType());
@@ -284,11 +284,11 @@ public class OrderController {
             dto.setTableNumber(-1); // 👈 AQUÍ
         } else {
             dto.setIdTable(
-                    order.getRestaurantTable() != null ? order.getRestaurantTable().getIdTable() : null
+                    order.getTable() != null ? order.getTable().getIdTable() : null
             );
 
             dto.setTableNumber(
-                    order.getRestaurantTable() != null ? order.getRestaurantTable().getTableNumber() : null
+                    order.getTable() != null ? order.getTable().getTableNumber() : null
             );
         }
         dto.setPaymentMethod(order.getPayment() != null ?
