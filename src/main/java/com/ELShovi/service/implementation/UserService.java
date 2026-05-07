@@ -104,4 +104,9 @@ public class UserService extends GenericService<User,Integer> implements IUserSe
         return repo.save(user);
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return repo.findByEmail(email).orElse(null);
+    }
+
 }

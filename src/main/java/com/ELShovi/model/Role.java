@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -19,4 +21,11 @@ public class Role {
     @Column(nullable = false, unique = true,length = 50)
     private String name;
     private String description;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "role_module",
+            joinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole"),
+            inverseJoinColumns = @JoinColumn(name = "id_module", referencedColumnName = "idModule")
+    )
+    private List<Module> modules;
 }
