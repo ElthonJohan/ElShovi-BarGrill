@@ -1,5 +1,6 @@
 package com.ELShovi.dto.dashboard;
 
+import com.ELShovi.model.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MetodoPagoDTO {
-    private String metodo;
+    private PaymentMethod metodo;
     private Long total;
 }
