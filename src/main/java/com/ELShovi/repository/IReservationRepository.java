@@ -11,7 +11,7 @@ import java.util.List;
 public interface IReservationRepository extends IGenericRepository<Reservation,Integer> {
     @Query("""
     SELECT r FROM Reservation r
-    WHERE r.Table.idTable = :idTable
+    WHERE r.table.idTable = :idTable
       AND r.reservationDate = :date
       AND (
             r.reservationTimeStart < :endTime

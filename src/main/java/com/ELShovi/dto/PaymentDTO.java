@@ -1,10 +1,13 @@
 package com.ELShovi.dto;
 
+import com.ELShovi.model.enums.PaymentMethod;
+import com.ELShovi.model.enums.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -15,9 +18,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PaymentDTO {
     private Integer idPayment;
-    private String paymentMethod;
-    private double amount;
+    private PaymentMethod paymentMethod;
+    private BigDecimal amount;
     private LocalDateTime paymentDate ;
-    private String status;
+    private PaymentStatus status;
     private String message;
 }

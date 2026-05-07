@@ -2,6 +2,7 @@ package com.ELShovi.dto;
 
 import com.ELShovi.model.enums.OrderStatus;
 import com.ELShovi.model.enums.OrderType;
+import com.ELShovi.model.enums.PaymentMethod;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,6 @@ public class OrderDTO {
 
     private String userName;     // 👈 NUEVO
     private Integer tableNumber;
-    private String paymentMethod;
+    private PaymentMethod paymentMethod;
 
 }

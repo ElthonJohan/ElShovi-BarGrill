@@ -8,9 +8,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -19,7 +19,7 @@ import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @jakarta.persistence.Table(name = "orden")
-@Entity(name = "Pedido")
+@Entity
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "id_table",
             foreignKey = @ForeignKey(name = "FK_order_table"))
-    private Table table;
+    private RestaurantTable restaurantTable;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -44,8 +44,8 @@ public class Order {
     @Column(nullable = false)
     private OrderStatus status;
 
-    @Column(nullable = false)
-    private double totalAmount;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal totalAmount;
 
     @Column(length = 200)
     private String notes;
@@ -55,8 +55,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "id_payment",unique = false,
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_payment",
             foreignKey = @ForeignKey(name = "FK_order_payment"))
     private Payment payment;
 }

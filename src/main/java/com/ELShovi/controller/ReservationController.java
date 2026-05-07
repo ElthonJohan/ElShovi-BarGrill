@@ -1,12 +1,7 @@
 package com.ELShovi.controller;
 
-import com.ELShovi.dto.CategoryDTO;
 import com.ELShovi.dto.ReservationDTO;
-import com.ELShovi.model.Category;
 import com.ELShovi.model.Reservation;
-import com.ELShovi.model.Table;
-import com.ELShovi.model.User;
-import com.ELShovi.service.ICategoryService;
 import com.ELShovi.service.IReservationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController

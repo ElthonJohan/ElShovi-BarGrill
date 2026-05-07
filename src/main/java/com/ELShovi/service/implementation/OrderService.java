@@ -3,9 +3,7 @@ package com.ELShovi.service.implementation;
 import com.ELShovi.model.Order;
 import com.ELShovi.model.enums.OrderType;
 import com.ELShovi.repository.IGenericRepository;
-import com.ELShovi.repository.IOrderItemRepository;
 import com.ELShovi.repository.IOrderRepository;
-import com.ELShovi.service.IGenericService;
 import com.ELShovi.service.IOrderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +28,7 @@ public class OrderService extends GenericService<Order, Integer> implements IOrd
 
         if (order.getOrderType() == OrderType.EN_MESA) {
 
-            Integer idMesa = order.getTable().getIdTable();
+            Integer idMesa = order.getRestaurantTable().getIdTable();
 
             // Buscar si hay otra orden activa en esa mesa
             List<Order> pendientes = repo.findActiveOrdersByTable(idMesa, order.getIdOrder());
@@ -54,7 +52,7 @@ public class OrderService extends GenericService<Order, Integer> implements IOrd
     public Order update(Order order, Integer id) throws Exception {
         if (order.getOrderType() == OrderType.EN_MESA) {
 
-            Integer idMesa = order.getTable().getIdTable();
+            Integer idMesa = order.getRestaurantTable().getIdTable();
 
             // Buscar si hay otra orden activa en esa mesa
             List<Order> pendientes = repo.findActiveOrdersByTable(idMesa, order.getIdOrder());
@@ -70,7 +68,7 @@ public class OrderService extends GenericService<Order, Integer> implements IOrd
 
         // COPIAR CAMPOS BÁSICOS
         original.setUser(order.getUser());
-        original.setTable(order.getTable());
+        original.setRestaurantTable(order.getRestaurantTable());
         original.setOrderType(order.getOrderType());
         original.setStatus(order.getStatus());
         original.setNotes(order.getNotes());

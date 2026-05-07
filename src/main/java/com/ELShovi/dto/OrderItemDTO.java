@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
+
 // import org.antlr.v4.runtime.misc.NotNull;
 
 @Data
@@ -17,7 +19,7 @@ public class OrderItemDTO {
     @NotNull
     private int quantity;
     @NotNull
-    private double unitPrice;
+    private BigDecimal unitPrice;
 
 
 }
