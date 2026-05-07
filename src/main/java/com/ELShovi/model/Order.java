@@ -34,7 +34,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "id_table",
             foreignKey = @ForeignKey(name = "FK_order_table"))
-    private RestaurantTable restaurantTable;
+    private RestaurantTable table;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

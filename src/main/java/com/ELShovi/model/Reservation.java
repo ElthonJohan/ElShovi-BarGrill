@@ -22,7 +22,7 @@ public class Reservation {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_table", nullable = false,
             foreignKey = @ForeignKey(name = "FK_reservation_table"))
-    private RestaurantTable restaurantTable;
+    private RestaurantTable table;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", nullable = false,
             foreignKey = @ForeignKey(name = "FK_reservation_user"))
