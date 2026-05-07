@@ -9,7 +9,7 @@ import java.util.List;
 public interface IOrderRepository extends IGenericRepository<Order,Integer> {
 
     @Query("""
-    SELECT o FROM Pedido o 
+    SELECT o FROM Order o 
     WHERE o.table.idTable = :idTable
     AND o.status <> 'COMPLETADA'
     AND (:excludeId IS NULL OR o.idOrder <> :excludeId)
@@ -18,7 +18,7 @@ public interface IOrderRepository extends IGenericRepository<Order,Integer> {
                                         @Param("excludeId") Integer excludeId);
 
     @Query("""
-    SELECT COUNT(o) > 0 FROM Pedido o
+    SELECT COUNT(o) > 0 FROM Order o
     WHERE o.table.idTable = :idMesa 
     AND o.status <> 'COMPLETADA'
 """)
