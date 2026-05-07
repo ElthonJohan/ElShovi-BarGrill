@@ -13,24 +13,24 @@ public interface IDashboardRepository extends IGenericRepository<Order, Integer>
     // --- ESTADÍSTICAS PRINCIPALES ---
     @Query("""
         SELECT SUM(o.totalAmount)
-        FROM Pedido o
+        FROM Order o
         JOIN o.payment p
-        WHERE DATE(o.createdAt) = CURRENT_DATE
+        WHERE FUNCTION('DATE', o.createdAt) = CURRENT_DATE
         AND p.status = 'COMPLETADO'
     """)
     Double ventasHoy();
 
     @Query("""
         SELECT COUNT(o)
-        FROM Pedido o
+        FROM Order o
         WHERE o.status IN ('PENDIENTE', 'EN_PREPARACION', 'LISTO', 'ENTREGADO', 'CANCELADO')
     """)
     Integer pedidosActivos();
 
     @Query("""
-        SELECT COUNT(DISTINCT o.user.id)
-        FROM Pedido o
-        WHERE DATE(o.createdAt) = CURRENT_DATE
+        SELECT COUNT(DISTINCT o.user.idUser)
+        FROM Order o
+        WHERE FUNCTION('DATE', o.createdAt) = CURRENT_DATE
     """)
     Integer clientesHoy();
 
@@ -43,20 +43,6 @@ public interface IDashboardRepository extends IGenericRepository<Order, Integer>
 
 
     // --- VENTAS ÚLTIMOS 7 DÍAS ---
-//    @Query("""
-//    SELECT new com.ELShovi.dto.dashboard.VentasDiariasDTO(
-//        FUNCTION('date', o.createdAt),
-//        SUM(o.totalAmount)
-//    )
-//    FROM Order o
-//    JOIN o.payment p
-//    WHERE p.status = 'PAID'
-//    GROUP BY FUNCTION('date', o.createdAt)
-//    ORDER BY FUNCTION('date', o.createdAt) DESC
-//""")
-//    List<VentasDiariasDTO> ventasDiarias();
-
-
     @Query(value = """
     SELECT DATE(o.created_at) AS fecha, SUM(o.total_amount) AS total
     FROM orden o
@@ -65,7 +51,7 @@ public interface IDashboardRepository extends IGenericRepository<Order, Integer>
     GROUP BY DATE(o.created_at)
     ORDER BY DATE(o.created_at) DESC
     LIMIT 7
-""", nativeQuery = true)
+    """, nativeQuery = true)
     List<Object[]> ventasDiarias();
 
 
@@ -104,7 +90,7 @@ public interface IDashboardRepository extends IGenericRepository<Order, Integer>
             o.orderType,
             COUNT(o)
         )
-        FROM Pedido o
+        FROM Order o
         GROUP BY o.orderType
     """)
     List<PedidosPorTipoDTO> pedidosPorTipo();
@@ -116,9 +102,9 @@ public interface IDashboardRepository extends IGenericRepository<Order, Integer>
             MONTH(o.createdAt),
             SUM(o.totalAmount)
         )
-        FROM Pedido o
+        FROM Order o
         JOIN o.payment p
-        WHERE p.status = 'PAID'
+        WHERE p.status = 'COMPLETADO'
         GROUP BY MONTH(o.createdAt)
         ORDER BY MONTH(o.createdAt)
     """)
@@ -144,7 +130,7 @@ public interface IDashboardRepository extends IGenericRepository<Order, Integer>
             u.userName,
             SUM(o.totalAmount)
         )
-        FROM Pedido o
+        FROM Order o
         JOIN o.user u
         JOIN o.payment p
         WHERE p.status = 'COMPLETADO'

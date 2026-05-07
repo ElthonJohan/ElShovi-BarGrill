@@ -1,6 +1,6 @@
 package com.ELShovi.repository;
 
-import com.ELShovi.model.Table;
+import com.ELShovi.model.RestaurantTable;
 
-public interface ITableRepository extends IGenericRepository<Table, Integer> {
+public interface ITableRepository extends IGenericRepository<RestaurantTable, Integer> {
 }

@@ -22,7 +22,7 @@ public class ReservationService extends GenericService<Reservation,Integer> impl
     public Reservation save(Reservation reservation) {
         List<Reservation> conflicts =
                 repo.findConflicts(
-                        reservation.getTable().getIdTable(),
+                        reservation.getRestaurantTable().getIdTable(),
                         reservation.getReservationDate(),
                         reservation.getReservationTimeStart(),
                         reservation.getReservationTimeEnd()
@@ -41,7 +41,7 @@ public class ReservationService extends GenericService<Reservation,Integer> impl
 
         List<Reservation> conflicts =
                 repo.findConflicts(
-                                reservation.getTable().getIdTable(),
+                                reservation.getRestaurantTable().getIdTable(),
                                 reservation.getReservationDate(),
                                 reservation.getReservationTimeStart(),
                                 reservation.getReservationTimeEnd()

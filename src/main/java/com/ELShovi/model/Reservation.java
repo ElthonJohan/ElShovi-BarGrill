@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NoArgsConstructor
@@ -23,7 +22,7 @@ public class Reservation {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_table", nullable = false,
             foreignKey = @ForeignKey(name = "FK_reservation_table"))
-    private Table Table;
+    private RestaurantTable restaurantTable;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", nullable = false,
             foreignKey = @ForeignKey(name = "FK_reservation_user"))

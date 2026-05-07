@@ -2,12 +2,13 @@ package com.ELShovi.controller;
 
 
 import com.ELShovi.dto.*;
-import com.ELShovi.model.Category;
 import com.ELShovi.model.Order;
 import com.ELShovi.model.OrderItem;
 import com.ELShovi.model.Payment;
 import com.ELShovi.model.enums.OrderStatus;
 import com.ELShovi.model.enums.OrderType;
+import com.ELShovi.model.enums.PaymentMethod;
+import com.ELShovi.model.enums.PaymentStatus;
 import com.ELShovi.repository.IOrderRepository;
 import com.ELShovi.service.*;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +93,8 @@ public class OrderController {
 
             Payment payment = new Payment();
             payment.setAmount(order.getTotalAmount());
-            payment.setPaymentMethod("ONLINE");
-            payment.setStatus("COMPLETADO");
+            payment.setPaymentMethod(PaymentMethod.ONLINE);
+            payment.setStatus(PaymentStatus.COMPLETADO);
 
             // Guardar el pago
             paymentService.save(payment);
@@ -156,7 +158,7 @@ public class OrderController {
         Payment payment = new Payment();
         payment.setPaymentMethod(dto.getPaymentMethod());
         payment.setAmount(order.getTotalAmount());
-        payment.setStatus("COMPLETADO");
+        payment.setStatus(PaymentStatus.COMPLETADO);
 
         paymentService.save(payment);
 
@@ -222,9 +224,9 @@ public class OrderController {
 
         // TABLE (puede ser null si es DELIVERY)
         if (dto.getOrderType() == OrderType.DELIVERY) {
-            order.setTable(null);
+            order.setRestaurantTable(null);
         } else if (dto.getIdTable() != null) {
-            order.setTable(tableService.findById(dto.getIdTable()));
+            order.setRestaurantTable(tableService.findById(dto.getIdTable()));
         }
 
         order.setOrderType(dto.getOrderType());
@@ -243,7 +245,7 @@ public class OrderController {
 
         // ITEMS
         List<OrderItem> items = new ArrayList<>();
-        double total = 0;
+        BigDecimal total = BigDecimal.ZERO;
 
         for (OrderItemDTO itemDTO : dto.getItems()) {
             OrderItem item = new OrderItem();
@@ -257,7 +259,7 @@ public class OrderController {
             item.setUnitPrice(itemDTO.getUnitPrice());
             item.setOrder(order);
 
-            total += item.getQuantity() * item.getUnitPrice();
+            total = total.add(item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
 
             items.add(item);
         }
@@ -282,11 +284,11 @@ public class OrderController {
             dto.setTableNumber(-1); // 👈 AQUÍ
         } else {
             dto.setIdTable(
-                    order.getTable() != null ? order.getTable().getIdTable() : null
+                    order.getRestaurantTable() != null ? order.getRestaurantTable().getIdTable() : null
             );
 
             dto.setTableNumber(
-                    order.getTable() != null ? order.getTable().getTableNumber() : null
+                    order.getRestaurantTable() != null ? order.getRestaurantTable().getTableNumber() : null
             );
         }
         dto.setPaymentMethod(order.getPayment() != null ?
@@ -296,7 +298,7 @@ public class OrderController {
         dto.setStatus(order.getStatus());
         dto.setNotes(order.getNotes());
         dto.setCreatedAt(order.getCreatedAt());
-        dto.setTotalAmount(order.getTotalAmount());
+        dto.setTotalAmount(order.getTotalAmount().doubleValue());
         dto.setIdPayment(order.getPayment() != null ? order.getPayment().getIdPayment() : null);
 
         List<OrderItemDTO> items = order.getItems()

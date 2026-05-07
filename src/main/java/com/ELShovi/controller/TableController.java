@@ -1,10 +1,7 @@
 package com.ELShovi.controller;
 
-import com.ELShovi.dto.CategoryDTO;
 import com.ELShovi.dto.TableDTO;
-import com.ELShovi.model.Category;
-import com.ELShovi.model.Table;
-import com.ELShovi.service.ICategoryService;
+import com.ELShovi.model.RestaurantTable;
 import com.ELShovi.service.ITableService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +46,7 @@ public class TableController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<TableDTO> save(@Valid @RequestBody TableDTO dto) throws Exception{
-        Table obj = service.save(convertToEntity(dto));
+        RestaurantTable obj = service.save(convertToEntity(dto));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdTable()).toUri();
         return ResponseEntity.created(location).build();
     }
@@ -57,7 +54,7 @@ public class TableController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TableDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody TableDTO dto) throws Exception{
-        Table obj = service.update(convertToEntity(dto), id);
+        RestaurantTable obj = service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }
 
@@ -69,13 +66,13 @@ public class TableController {
     }
 
     // Convertir de un Modelo a un DTO
-    private TableDTO convertToDto(Table obj){
+    private TableDTO convertToDto(RestaurantTable obj){
         return modelMapper.map(obj, TableDTO.class);
     }
 
     // Convertir de un DTO a un Modelo (Entity)
-    private Table convertToEntity(TableDTO dto){
-        return modelMapper.map(dto, Table.class);
+    private RestaurantTable convertToEntity(TableDTO dto){
+        return modelMapper.map(dto, RestaurantTable.class);
     }
 
     //Metodo para la paginación
@@ -84,7 +81,7 @@ public class TableController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "idTable") String sortBy) throws Exception {
-        Page<Table> pageResult = service.paginar(page, size, sortBy);
+        Page<RestaurantTable> pageResult = service.paginar(page, size, sortBy);
         Page<TableDTO> dtoPage = pageResult.map(this::convertToDto);
         return  ResponseEntity.ok(dtoPage);
     }

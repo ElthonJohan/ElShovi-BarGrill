@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @jakarta.persistence.Table(name = "mesa")
-public class Table {
+public class RestaurantTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include

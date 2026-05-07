@@ -32,7 +32,8 @@ public class User {
     private String fullName;
     @Column(nullable = false)
     private boolean active;
-    private LocalDateTime createdAt=LocalDateTime.now();
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "idUser"),
@@ -40,4 +41,9 @@ public class User {
     )
     private List<Role> roles;
 
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
